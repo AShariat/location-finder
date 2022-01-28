@@ -1,1 +1,1 @@
-# location-finder
+https://ashariat.github.io/location-finder/

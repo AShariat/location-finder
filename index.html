@@ -13,8 +13,52 @@
   </header>
   <main class="d-flex justify-content-center">
     <button id="button" class="btn btn-dark m-lg-5">Find My Location!</button>
+    <ul id="list" class="list-group-flush">
+      <li id="continent_name" class="list-group-item"></li>
+      <li id="country_name" class="list-group-item"></li>
+      <li id="region" class="list-group-item"></li>
+      <li id="city" class="list-group-item"></li>
+      <li id="lat" class="list-group-item"></li>
+      <li id="lon" class="list-group-item"></li>
+    </ul>
   </main>
   <footer></footer>
-  <script src="./script.js"></script>
+  <script>
+    document.querySelector('#button').addEventListener('click', function user() {
+      fetch('https://api.ipify.org/?format=json')
+        .then(results => {
+          return results.json();
+        })
+        .then(data => {
+          userLocation(data.ip);
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    });
+    function userLocation(ip) {
+      fetch("https://weatherapi-com.p.rapidapi.com/ip.json?q="+ip, {
+        "method": "GET",
+        "headers": {
+          "x-rapidapi-host": "weatherapi-com.p.rapidapi.com",
+          "x-rapidapi-key": "12b796900dmsh12b8fa6011f391ep1d4f63jsnff6a49444565"
+        }
+      })
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        document.querySelector('#continent_name').textContent = data.continent_name;
+        document.querySelector('#country_name').textContent = data.country_name;
+        document.querySelector('#region').textContent = data.region;
+        document.querySelector('#city').textContent = data.city;
+        document.querySelector('#lat').textContent = data.lat;
+        document.querySelector('#lon').textContent = data.lon;
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    };
+  </script>
 </body>
 </html>
